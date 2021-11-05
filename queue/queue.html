@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>封装队列</title>
+</head>
+
+<body>
+    <script>
+        // 封装队列类
+        function Queue() {
+            // 属性
+            this.items = []
+
+            // 方法
+            // 1.将元素加入队列
+            Queue.prototype.enqueue = function (element) {
+                this.items.push(element)
+            }
+            // 2.从队列中删除前端元素
+            Queue.prototype.dequeue = function () {
+                return this.items.shift()
+            }
+            // 3.查看前端元素
+            Queue.prototype.front = function () {
+                return this.items[0]
+            }
+            // 4.查看队列是否为空
+            Queue.prototype.isEmpty = function () {
+                return this.items.length == 0
+            }
+            // 5.查看队列中元素的个数
+            Queue.prototype.size = function () {
+                return this.items.length
+            }
+            // 6.toString方法
+            Queue.prototype.toString = function () {
+                var res = ''
+                for (let i = 0; i < this.items.length; i++) {
+                    res += this.items[i] + ''
+                }
+                return res
+            }
+        }
+
+        /* // 使用队列
+        var s = new Queue()
+        s.enqueue('abc')
+        s.enqueue('bcd')
+        s.enqueue('ioh')
+        s.enqueue('asd')
+        alert(s)
+        s.dequeue()
+        alert(s)
+        alert(s.front()) */
+
+        // 击鼓传花函数
+        function passGame(nameList, num) {
+            // 1.创建一个队列结构
+            var queue = new Queue()
+
+            // 2.将所有人依次放入队列中
+            for (let i = 0; i < nameList.length; i++) {
+                queue.enqueue(nameList[i])
+            }
+
+            // 3.开始数数字，两层循环
+            while (queue.size() > 1) {
+                // 3.1下标不是num时，依次从队首删除并放入队尾
+                for (let i = 0; i < num - 1; i++) {
+                    queue.enqueue(queue.dequeue())
+                }
+                // 3.2是num时，直接从队列中删除
+                queue.dequeue()
+            }
+            // 4.获取剩下的那个人
+            alert(queue.size())
+            var endName = queue.front()
+            alert('最终剩下的人是' + endName)
+            // 查看下标
+            return nameList.indexOf(endName)
+        }
+
+        // 测试击鼓传花
+        names = ['Lily', 'Rose', 'Tom', 'Jack', 'Yuan']
+        alert(passGame(names, 3))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栈的封装</title>
+</head>
+
+<body>
+    <script>
+        // 封装栈类
+        function Stack() {
+            // 栈中的属性，是数组
+            this.items = []
+
+            // 栈的相关操作，写在外面叫函数；写在里面叫方法method，和某一个对象实例有联系，此处为Stack对象
+            //1.将元素压入栈
+            //方法一：给某个对象的实例添加方法，要给每一个都添加
+            //this.push = function () {}
+            // 推荐方法二：在对象原型上添加，给整个类添加Method,节省内存且高效
+            Stack.prototype.push = function (element) {
+                this.items.push(element)
+            }
+            //2.从栈中取出元素
+            Stack.prototype.pop = function () {
+                return this.items.pop()
+            }
+            //3.查看栈顶元素
+            Stack.prototype.peek = function () {
+                return this.items[this.items.length - 1]
+            }
+            //4.判断栈是否为空
+            Stack.prototype.isEmpty = function () {
+                return this.items.length == 0
+            }
+            //5.获取栈中元素个数
+            Stack.prototype.size = function () {
+                return this.items.length
+            }
+            //6.转为字符串方法
+            Stack.prototype.toString = function () {
+                var res = ''
+                for (let i = 0; i < this.items.length; i++) {
+                    res += this.items[i] + ''
+                }
+                return res
+            }
+        }
+
+        // 栈的使用
+        /* var s = new Stack()
+        s.push(20)
+        s.push(19)
+        s.push(100)
+        s.push(90)
+        alert(s)
+        s.pop()
+        alert(s.peek())
+        alert(s.toString()) */
+
+        // 封装函数：将十进制转为二进制
+        function binary(number){
+        // 1.定义栈对象
+        var stack = new Stack()
+        // 2.循环操作
+        while(number > 0){
+            // 2.1获取余数并放入栈中
+            stack.push(number % 2)
+            // 2.2获取整除后的结果，作为下一次计算的数字
+            number = Math.floor(number / 2)
+        }
+        // 3.从栈中取出0和1
+        var binaryString = ''
+        // 用非空循环来写
+        while(!stack.isEmpty()){
+            binaryString += stack.pop() + ''
+        }
+        return binaryString
+        }
+
+        // 测试十进制转二进制函数
+        alert(binary(1000))
+        alert(binary(100))
+    </script>
+</body>
+</html>

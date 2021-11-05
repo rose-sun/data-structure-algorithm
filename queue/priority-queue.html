@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>封装优先队列</title>
+</head>
+
+<body>
+    <script>
+        // 封装优先队列
+        function PriorityQueue() {
+            //*在类里面封装另一个类，叫内部类
+            function QueueElement(element, priority) {
+                // 封装这个类，把当前的数据值和优先级保存起来
+                this.element = element
+                this.priority = priority
+            }
+            // 封装属性
+            this.items = []
+
+            // 实现插入方法，其他方法与普通队列一样
+            PriorityQueue.prototype.enqueue = function (element, priority) {
+                // 1.在类里面创建一个QueueElement对象
+                var queueElement = new QueueElement(element, priority)
+
+                // 2.判断队列是否为空
+                if(this.items.length==0){
+                    this.items.push(queueElement)
+                }else{
+                    if()
+                }
+            }
+        }
+
+        // 测试代码
+        var pq = new PriorityQueue()
+    </script>
+</body>
+
+</html>
