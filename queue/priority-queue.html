@@ -30,13 +30,54 @@
                 if(this.items.length==0){
                     this.items.push(queueElement)
                 }else{
-                    if()
+                    // 对队列里已有的每一个元素遍历，比较优先级
+                    var added = false;
+                    for(let i=0; i< this.items.length; i++){
+                    if(queueElement.priority < this.items[i].priority){
+                        this.items.splice(i, 0, queueElement)
+                        added = true;
+                        break;
+                    }
+                    }
+                    // 都没有的话，就加在最后面
+                    if(!added){
+                        this.items.push(queueElement)
+                    }
                 }
+            }
+            // 2.从队列中删除前端元素
+            PriorityQueue.prototype.dequeue = function () {
+                return this.items.shift()
+            }
+            // 3.查看前端元素
+            PriorityQueue.prototype.front = function () {
+                return this.items[0]
+            }
+            // 4.查看队列是否为空
+            PriorityQueue.prototype.isEmpty = function () {
+                return this.items.length == 0
+            }
+            // 5.查看队列中元素的个数
+            PriorityQueue.prototype.size = function () {
+                return this.items.length
+            }
+            // 6.toString方法
+            PriorityQueue.prototype.toString = function () {
+                var res = ''
+                for (let i = 0; i < this.items.length; i++) {
+                    res += this.items[i].element + '-'+ this.items[i].priority + ' '
+                }
+                return res
             }
         }
 
         // 测试代码
         var pq = new PriorityQueue()
+        pq.enqueue('abc', 100)
+        pq.enqueue('dsf', 120)
+        pq.enqueue('ssda', 900)
+        pq.enqueue('dadad', 2)
+        alert(pq)
     </script>
 </body>
 

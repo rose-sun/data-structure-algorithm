@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>封装单向链表</title>
+</head>
+
+<body>
+    <script>
+        function linkedList() {
+            // 内部类：节点类
+            function Node(data) {
+                this.data = data;
+                this.next = null;
+            }
+            // 其他属性
+            this.head = null;
+            this.length = 0;
+
+            // 1.追加节点方法
+            linkedList.prototype.append = function (data) {
+                // 创建新的节点
+                var newNode = new Node(data)
+                // 判断是第一个节点
+                if (this.length == 0) {
+                    this.head = newNode
+                } else {
+                    var current = this.head
+                    // 找到最后一个节点
+                    while (current.next) {
+                        current = current.next
+                    }
+                    // 最后节点的next指向新节点
+                    current.next = newNode
+                }
+                // 改变length
+                this.length += 1
+            }
+
+            // 2.toString方法
+            linkedList.prototype.toString = function () {
+                var current = this.head
+                var res = ''
+                while (current) {
+                    res += current.data + ' '
+                    current = current.next
+                }
+                return res
+            }
+
+            // 3.insert方法
+            linkedList.prototype.insert = function (position, data) {
+                // 1.对position进行越界判断
+                if (position < 0 || position > this.length) return false
+
+                // 2.根据data创建新节点
+                var newNode = new Node(data)
+
+                // 3.判断插入位置是否为第一个
+                if (position == 0) {
+                    newNode.next = this.head
+                    this.head = newNode
+                } else {
+                    var previous = null
+                    var current = this.head
+                    var index = 0
+                    // 先判断index的大小，再+1
+                    while (index++ < position) {
+                        previous = current
+                        current = current.next
+                    }
+                    // 当index达到position时
+                    newNode.next = current
+                    previous.next = newNode
+                }
+
+                // 4.改变length
+                this.length += 1
+                return true
+            }
+
+            // 4.get方法
+            linkedList.prototype.get = function (position) {
+                // 1.越界判断
+                if (position < 0 || position >= this.length) return null
+
+                // 2.获取对应的data
+                var current = this.head
+                var index = 0
+                while (index++ < position) {
+                    current = current.next
+                }
+                return current.data
+            }
+
+            // 5.indexOf方法
+            linkedList.prototype.indexOf = function (data) {
+                var index = 0
+                var current = this.head
+                while (current) {
+                    if (current.data == data) {
+                        return index
+                    }
+                    current = current.next
+                    index += 1
+                }
+                return -1
+            }
+
+            // 6.update方法
+            linkedList.prototype.update = function (position, newData) {
+                // 1.越界判断
+                if (position < 0 || position >= this.length) return false
+                // 2.更新指定位置的节点
+                var index = 0
+                var current = this.head
+                while (index++ < position) {
+                    current = current.next
+                }
+                current.data = newData
+                return true
+            }
+
+            // 7.removeAt方法
+            linkedList.prototype.removeAt = function (position) {
+                // 1.越界判断
+                if (position < 0 || position >= this.length) return null
+                // 2.判断删除的是否是第一个节点
+                // 为了最后能拿到current,把这个放到外面
+                var current = this.head
+                if (position == 0) {
+                    this.head = this.head.next
+                } else {
+                    var index = 0
+                    var previous = null
+                    while (index++ < position) {
+                        previous = current
+                        current = current.next
+                    }
+                    // 前一个节点的next指向当前节点的下一个
+                    previous.next = current.next
+                }
+                // 3.长度-1
+                this.length -= 1
+                // 4.返回被删除的值
+                return current.data
+            }
+
+            // 8. remove方法
+            linkedList.prototype.remove = function (data) {
+                // 1.获取data在列表中的位置
+                var position = this.indexOf(data)
+                // 2.根据position删除节点，position是-1时候直接返回null
+                return this.removeAt(position)
+            }
+
+            // 9.isEmpty方法
+            linkedList.prototype.isEmpty = function () {
+                return this.length == 0
+            }
+
+            // 10.size方法
+            linkedList.prototype.size = function () {
+                return this.length
+            }
+        }
+
+        // 测试代码
+        // 1.创建链表
+        var list = new linkedList()
+        // 2.测试append方法
+        list.append('abc')
+        list.append('bcd')
+        list.append('ssde')
+        // alert(list.toString())
+
+        // 3.测试insert方法
+        list.insert(0, 'aaa')
+        list.insert(2, 'bbb')
+        list.insert(5, 'ccc')
+        alert(list)
+        // 4.测试get方法
+        // alert(list.get(5))
+        // 5.测试indexOf方法
+        // alert(list.indexOf('aaa'))
+        // alert(list.indexOf('ccc'))
+        // 6.测试update方法
+        list.update(0, 'jjj')
+        list.update(4, 'ooo')
+        alert(list)
+        // 7.测试removeAt方法
+        list.removeAt(0)
+        // 是在删除后的基础上继续操作
+        list.removeAt(3)
+        alert(list)
+        // 8.测试remove方法
+        list.remove('abc')
+        alert(list)
+        alert(list.isEmpty())
+        alert(list.size())
+    </script>
+</body>
+
+</html>
